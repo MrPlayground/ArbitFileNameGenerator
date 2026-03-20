@@ -113,6 +113,12 @@ input{
     border-radius:5px;
     flex:1;
     margin-right:10px;
+
+    min-width:0;             	 /* CRITICAL FIX */
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    cursor:pointer;		 /* nice UX hint */
 }
 
 button{
@@ -123,6 +129,7 @@ button{
     border-radius:5px;
     cursor:pointer;
     margin-right:5px;
+    flex-shrink:0;
 }
 
 button:hover{
@@ -217,36 +224,27 @@ footer{
 
 <script>
 
+function setText(id, value){
+    let el = document.getElementById(id);
+    el.innerText = value;
+    el.title = value; // 🔥 this adds the hover tooltip
+}
+
 function generate(){
 
-let dispute =
-document.getElementById("dispute").value;
-
-let ehr =
-document.getElementById("ehr").value;
+let dispute = document.getElementById("dispute").value;
+let ehr = document.getElementById("ehr").value;
 
 if(dispute && ehr){
 
-document.getElementById("hcfa").innerText =
-dispute+"_"+ehr+"_hcfa";
-
-document.getElementById("eob").innerText =
-dispute+"_"+ehr+"_physicaleob";
-
-document.getElementById("hmo").innerText =
-dispute+"_"+ehr+"_insurancecard";
-
-document.getElementById("op").innerText =
-dispute+"_"+ehr+"_opreport";
-
-document.getElementById("op2").innerText =
-dispute+"_"+ehr+"_opreport2";
-
-document.getElementById("op3").innerText =
-dispute+"_"+ehr+"_opreport3";
+setText("hcfa", dispute+"_"+ehr+"_hcfa");
+setText("eob", dispute+"_"+ehr+"_physicaleob");
+setText("hmo", dispute+"_"+ehr+"_insurancecard");
+setText("op", dispute+"_"+ehr+"_opreport");
+setText("op2", dispute+"_"+ehr+"_opreport2");
+setText("op3", dispute+"_"+ehr+"_opreport3");
 
 }
-
 }
 
 function copyText(id){
