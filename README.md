@@ -6,11 +6,10 @@ Live Demo
 
 Access the tool here:
 
-https://yourusername.github.io/repository-name/
+https://mrplayground.github.io/ArbitFileNameGenerator/
 
-(Replace with your actual GitHub Pages link)
-
-Features
+Features:
+=================================
 Instant document name generation
 One-click copy buttons
 Clear button to reset fields
@@ -18,7 +17,7 @@ Real-time text generation
 Lightweight (no frameworks)
 Works on desktop and mobile browsers
 Generated Documents
-
+================================
 The tool generates the following formats:
 
 Label	Generated Format
@@ -28,7 +27,7 @@ HMO	dispute_ehr_insurancecard
 OP	dispute_ehr_opreport
 OP2	dispute_ehr_opreport2
 OP3	dispute_ehr_opreport3
-
+======================================
 Example:
 
 Dispute: 123123
@@ -42,6 +41,9 @@ Generated:
 123123_321321_opreport2
 123123_321321_opreport3
 
+===============================
+===============================
+
 How to Use
 Enter the Dispute Number
 Enter the EHR Number
@@ -53,7 +55,7 @@ CSS3
 Vanilla JavaScript
 
 No external libraries required.
-
+=============================
 Installation (Local Use)
 
 If you want to run locally:
@@ -61,7 +63,7 @@ If you want to run locally:
 1 Download repository
 2 Open index.html
 3 Use in browser
-
+=============================
 Future Improvements
 
 Possible upgrades:
@@ -72,13 +74,16 @@ Keyboard shortcuts
 Better mobile layout
 Copy confirmation indicator
 Input validation
+
+===========================
+
 Purpose
 
 This project was created to improve workflow efficiency and reduce manual filename formatting errors.
 
 Author
 =================
-Angelo Palaroan
+Angelo 
 =================
 License
 
