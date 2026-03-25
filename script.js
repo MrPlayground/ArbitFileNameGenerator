@@ -178,19 +178,19 @@ function generateCaseNotes() {
     // FR Date logic: Check if only Correct date is filled (Added) or both are filled (Updated)
     if (frDateCheckbox && frDateCorrect && !frDateSystem) {
         // Only Correct date is filled - Added message
-        outputs.push(`Added the FR Date (${frDateCorrect}).`);
+        outputs.push(`Added the FR Date (${frDateCorrect}). - SS Doc Mngmt Team`);
     } else if (frDateCheckbox && frDateSystem && frDateCorrect && validateDateFormat(frDateSystem) && validateDateFormat(frDateCorrect)) {
         // Both dates are filled - Updated message
-        outputs.push(`Updated the FR Date from ${frDateSystem} to ${frDateCorrect}.`);
+        outputs.push(`Updated the FR Date from ${frDateSystem} to ${frDateCorrect}. - SS Doc Mngmt Team`);
     }
     
     // Last EOB logic: Check if only Correct date is filled (Added) or both are filled (Updated)
     if (lastEobCheckbox && lastEobCorrect && !lastEobSystem) {
         // Only Correct date is filled - Added message
-        outputs.push(`Added the Last EOB (${lastEobCorrect}).`);
+        outputs.push(`Added the Last EOB (${lastEobCorrect}). - SS Doc Mngmt Team`);
     } else if (lastEobCheckbox && lastEobSystem && lastEobCorrect && validateDateFormat(lastEobSystem) && validateDateFormat(lastEobCorrect)) {
         // Both dates are filled - Updated message
-        outputs.push(`Updated the Last EOB from ${lastEobSystem} to ${lastEobCorrect}.`);
+        outputs.push(`Updated the Last EOB from ${lastEobSystem} to ${lastEobCorrect}. - SS Doc Mngmt Team`);
     }
     
     // Check if both FR Date and Last EOB are in "Added" state
@@ -200,7 +200,7 @@ function generateCaseNotes() {
     if (frIsAdded && lastEobIsAdded) {
         // Both are Added - replace individual messages with combined message
         outputs = [];
-        outputs.push(`Added the FR Date and Last EOB (${frDateCorrect}).`);
+        outputs.push(`Added the FR Date and Last EOB (${frDateCorrect}). - SS Doc Mngmt Team`);
     }
     
     // Check if both FR Date and Last EOB are in "Updated" state
@@ -210,16 +210,16 @@ function generateCaseNotes() {
     if (frIsUpdated && lastEobIsUpdated) {
         // Both are Updated - replace individual messages with combined message
         outputs = [];
-        outputs.push(`Updated the FR Date and Last EOB from ${frDateSystem} to ${lastEobCorrect}.`);
+        outputs.push(`Updated the FR Date and Last EOB from ${frDateSystem} to ${lastEobCorrect}. - SS Doc Mngmt Team`);
     }
     
     // Check Claim Number (either Added or Updated based on completion)
     if (claimCheckbox && claimUser && !claimSystem) {
         // Only correct data is filled - Added message
-        outputs.push(`Added Claim Number (${claimUser}).`);
+        outputs.push(`Added Claim Number (${claimUser}). - SS Doc Mngmt Team`);
     } else if (claimCheckbox && claimSystem && claimUser) {
         // Both are filled - Updated message
-        outputs.push(`Updated the Claim Number from ${claimSystem} to ${claimUser}.`);
+        outputs.push(`Updated the Claim Number from ${claimSystem} to ${claimUser}. - SS Doc Mngmt Team`);
     }
     
     // Combine outputs
@@ -285,14 +285,14 @@ function generateMissingNotes() {
     // INS Card output
     let insCardOutput = "";
     if (insCard) {
-        insCardOutput = "Failure: Unable to locate insurance card in USMon portal.";
+        insCardOutput = "Failure: Unable to locate insurance card in USMon portal. - SS Doc Mngmt Team";
     }
     setText("insCardOutput", insCardOutput);
     
     // Check/Production Date EOB output
     let checkEobOutput = "";
     if (checkEob) {
-        checkEobOutput = "Failure: There's no physical EOB available in the Phicure portal and no 835 uploaded. A physical EOB was uploaded via Availity, but there's no check date available.";
+        checkEobOutput = "Failure: There's no physical EOB available in the Phicure portal and no 835 uploaded. A physical EOB was uploaded via Availity, but there's no check date available. - SS Doc Mngmt Team";
     }
     setText("checkEobOutput", checkEobOutput);
 }
