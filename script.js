@@ -277,7 +277,7 @@ function generateMissingNotes() {
             portal = "USMon portal";
         }
         
-        mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portal}, Doc Mgmt Team will need to escalate to customer/IDR2RCM if no physical documents. - SS Doc Mgmt Team`;
+        mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portal}, Doc Mgmt will need to escalate to customer/IDR2RCM if no physical documents. - SS Doc Mgmt Team`;
     }
     
     setText("missingOutput", mainOutput);
