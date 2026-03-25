@@ -1,415 +1,8 @@
 <!DOCTYPE html>
 <html>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" 
-
-type="text/javascript"></script> 
-<script language="JavaScript"> 
-var numraindrops="150";
-var speed="5";
-var rainsize="2";
-var wind="left";
-var genxgallery="";
-
-function tb5_makeArray(n){ this.length = n; return this.length;
-}
-tb5_messages = new tb5_makeArray(2);
-tb5_messages[0] = "Created by";
-tb5_messages[1] = "♠[•]MrPlayground[•]♠";
-tb5_rptType = 'infinite';
-tb5_rptNbr = 10;
-tb5_speed = 50;
-tb5_delay = 2000;
-var tb5_counter=1;
-var tb5_currMsg=0;
-var tb5_stsmsg="";
-function tb5_shuffle(arr){
-var k;
-for (i=0; i<arr.length; i++){ k = Math.round(Math.random() * (arr.length - i - 
-
-1)) + i; temp = arr[i];arr[i]=arr[k];arr[k]=temp;
-}
-return arr;
-}
-tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
-tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
-for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; 
-
-tb5_sts[i] = "*#";
-}
-tb5_arr = tb5_shuffle(tb5_arr);
-function tb5_init(n){
-var k;
-if (n == tb5_arr.length){ if (tb5_currMsg == tb5_messages.length-1){ if 
-
-((tb5_rptType == 'finite') && (tb5_counter==tb5_rptNbr)){ clearTimeout
-
-(tb5_timerID); return; } tb5_counter++; tb5_currMsg=0; } else{ tb5_currMsg++; 
-
-} n=0; tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length); tb5_sts 
-
-= new tb5_makeArray(tb5_messages[tb5_currMsg].length); for (var i=0; 
-
-i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; tb5_sts[i] = "+="; } 
-
-tb5_arr = tb5_shuffle(tb5_arr); tb5_sp=tb5_delay;
-}
-else{ tb5_sp=tb5_speed; k = tb5_arr[n]; tb5_sts[k] = tb5_messages
-
-[tb5_currMsg].charAt(k); tb5_stsmsg = ""; for (var i=0; i<tb5_sts.length; i++) 
-
-tb5_stsmsg += tb5_sts[i]; document.title = tb5_stsmsg; n++; } tb5_timerID = 
-
-setTimeout("tb5_init("+n+")", tb5_sp);
-}
-function tb5_randomizetitle(){ tb5_init(0);
-}
-tb5_randomizetitle();
-</script>
 <head>
 <title>Document Name Generator</title>
-
-<style>
-:root {
-    --bg-primary: #f4f6f8;
-    --bg-secondary: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #333333;
-    --border-color: #cccccc;
-    --input-bg: #ffffff;
-    --input-border: #cccccc;
-    --output-bg: #eef2f7;
-    --button-primary: #2d89ef;
-    --button-primary-hover: #1b5fbf;
-    --button-clear: #e74c3c;
-    --button-clear-hover: #c0392b;
-    --shadow: rgba(0, 0, 0, 0.1);
-}
-
-html[data-theme="dark"] {
-    --bg-primary: #1e1e1e;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --border-color: #444444;
-    --input-bg: #3d3d3d;
-    --input-border: #555555;
-    --output-bg: #3d3d3d;
-    --button-primary: #0e639c;
-    --button-primary-hover: #1177bb;
-    --button-clear: #c0392b;
-    --button-clear-hover: #a93226;
-    --shadow: rgba(0, 0, 0, 0.3);
-}
-
-html[data-theme="bw"] {
-    --bg-primary: #ffffff;
-    --bg-secondary: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #000000;
-    --border-color: #000000;
-    --input-bg: #ffffff;
-    --input-border: #000000;
-    --output-bg: #f0f0f0;
-    --button-primary: #000000;
-    --button-primary-hover: #333333;
-    --button-clear: #000000;
-    --button-clear-hover: #333333;
-    --shadow: rgba(0, 0, 0, 0.2);
-}
-
-html[data-theme="vscode"] {
-    --bg-primary: #1e1e1e;
-    --bg-secondary: #252526;
-    --text-primary: #d4d4d4;
-    --text-secondary: #cccccc;
-    --border-color: #3e3e42;
-    --input-bg: #3c3c3c;
-    --input-border: #555555;
-    --output-bg: #2d2d30;
-    --button-primary: #0099ff;
-    --button-primary-hover: #0099ff;
-    --button-clear: #d13438;
-    --button-clear-hover: #f1707a;
-    --shadow: rgba(0, 0, 0, 0.5);
-}
-
-html[data-theme="greige"] {
-    --bg-primary: #efede6;
-    --bg-secondary: #fafaf8;
-    --text-primary: #1a1a1a;
-    --text-secondary: #676663;
-    --border-color: #a1998f;
-    --input-bg: #fafaf8;
-    --input-border: #a1998f;
-    --output-bg: #d5cfc3;
-    --button-primary: #676663;
-    --button-primary-hover: #a1998f;
-    --button-clear: #676663;
-    --button-clear-hover: #a1998f;
-    --shadow: rgba(0, 0, 0, 0.08);
-}
-
-html[data-theme="sleek"] {
-    --bg-primary: #b7b3aa;
-    --bg-secondary: #e2e1dd;
-    --text-primary: #1e1c1d;
-    --text-secondary: #533824;
-    --border-color: #7e7e7e;
-    --input-bg: #e2e1dd;
-    --input-border: #7e7e7e;
-    --output-bg: #b7b3aa;
-    --button-primary: #533824;
-    --button-primary-hover: #7e7e7e;
-    --button-clear: #533824;
-    --button-clear-hover: #7e7e7e;
-    --shadow: rgba(0, 0, 0, 0.12);
-}
-
-body{
-    font-family: Arial;
-    background:  var(--bg-primary);
-    color: var(--text-primary);
-    display:flex;
-    flex-direction: column;
-    justify-content:flex-start;
-    align-items:center;
-    padding-top: 60px;
-    padding-bottom: 120px;
-    margin:0;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.theme-selector{
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-}
-
-.theme-selector select {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    background: var(--input-bg);
-    color: var(--text-primary);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.main-container{
-    display:flex;
-    gap:15px;
-    width:100%;
-    max-width:1400px;
-    padding:0 10px;
-    justify-content: center;
-}
-
-.container{
-    background:var(--bg-secondary);
-    color: var(--text-primary);
-    padding:15px;
-    border-radius:10px;
-    flex:1;
-    min-width:300px;
-    box-shadow:0 5px 15px var(--shadow);
-    overflow-y:auto;
-    max-height:calc(100vh - 180px);
-    border: 1px solid var(--border-color);
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-h2{
-	text-align:center; 
-	margin:0 0 12px 0;
-	font-size:18px;
-	color: var(--text-primary);
-}
-
-h3{
-	margin:12px 0 8px 0;
-	color:var(--text-secondary);
-	font-size:15px;
-}
-
-label{
-	display:block;
-	font-size:13px;
-	margin-bottom:2px;
-	color: var(--text-primary);
-}
-
-input[type="text"]{
-    width:95%;
-    padding:6px;
-    margin-top:2px;
-    margin-bottom:8px;
-    border-radius:4px;
-    border:1px solid var(--input-border);
-    background: var(--input-bg);
-    color: var(--text-primary);
-    font-size:12px;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-input[type="checkbox"]{
-	width:auto;
-	margin-right:6px;
-	cursor:pointer;
-	accent-color: var(--button-primary);
-}
-
-.row{
-    display:flex;
-    align-items:center;
-    margin-bottom:6px;
-    font-size:12px;
-}
-
-.generated{
-    background:var(--output-bg);
-    color: var(--text-primary);
-    padding:6px;
-    border-radius:4px;
-    flex:1;
-    margin-right:6px;
-    min-width:0;
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    cursor:pointer;
-    font-size:11px;
-    border: 1px solid var(--border-color);
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-button{
-    background:var(--button-primary);
-    color:white;
-    border:none;
-    padding:5px 10px;
-    border-radius:4px;
-    cursor:pointer;
-    margin-right:3px;
-    flex-shrink:0;
-    font-size:11px;
-    transition: background-color 0.3s;
-}
-
-button:hover{
-    background:var(--button-primary-hover);
-}
-
-.clearBtn{
-    background:var(--button-clear);
-}
-
-.clearBtn:hover{
-    background:var(--button-clear-hover);
-}
-
-.label{
-    width:60px;
-    font-weight:bold;
-    font-size:11px;
-    color: var(--text-primary);
-}
-
-.controls{
-    margin-bottom:8px;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid var(--border-color);
-    margin: 8px 0;
-}
-
-.case-notes-section {
-    border:1px solid var(--border-color);
-    padding:8px;
-    border-radius:4px;
-    margin-bottom:8px;
-    background:var(--output-bg);
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.note-field {
-    margin-bottom:6px;
-}
-
-.note-field label {
-    display:flex;
-    align-items:center;
-    font-weight:bold;
-    margin-bottom:2px;
-    cursor:pointer;
-    font-size:12px;
-    color: var(--text-primary);
-}
-
-.note-field input[type="checkbox"] {
-    margin-right:6px;
-    margin-bottom:0;
-    cursor:pointer;
-}
-
-.claim-inputs {
-    display:flex;
-    gap:4px;
-    margin-top:3px;
-}
-
-.claim-inputs input {
-    flex:1;
-    padding:5px;
-    border:1px solid var(--input-border);
-    border-radius:3px;
-    margin:0;
-    width:100% !important;
-    font-size:11px;
-    background: var(--input-bg);
-    color: var(--text-primary);
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.two-output-row {
-	display:flex;
-	gap:8px;
-	margin-bottom:8px;
-}
-
-.two-output-row .row {
-	flex:1;
-	margin-bottom:0;
-}
-
-footer{
-	background: var(--bg-secondary);
-	color: var(--text-primary);
-	padding:8px;
-	text-align:center;
-	position:fixed;
-	bottom:0;
-	width:100%;
-	font-size:12px;
-	border-top: 1px solid var(--border-color);
-	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-footer a {
-	color: var(--button-primary);
-	text-decoration: none;
-	transition: color 0.3s;
-}
-
-footer a:hover {
-	color: var(--button-primary-hover);
-	text-decoration: underline;
-}
-</style>
-
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -419,8 +12,7 @@ footer a:hover {
     <option value="light">Light Mode</option>
     <option value="dark">Dark Mode</option>
     <option value="bw">Black & White</option>
-    <option value="vscode">VS Code</option>
-    <option value="greige">Greige</option>
+    <option value="vscode">Avengers Endgame</option>
     <option value="sleek">Sleek</option>
   </select>
 </div>
@@ -432,13 +24,21 @@ footer a:hover {
 
 <h2>File Name Generator</h2>
 
-<label>Dispute Number</label>
-<input id="dispute" type="text" oninput="generate()">
+<label>ARBIT Numbers (one per line)</label>
+<textarea id="arbitInputArea" rows="5"></textarea>
 
-<label>EHR Number</label>
-<input id="ehr" type="text" oninput="generate()">
+<label>EHR Numbers (one per line)</label>
+<textarea id="ehrInputArea" rows="5"></textarea>
+
+<button onclick="loadArbitEHRMappings()">Load Data</button>
+
+<div id="mappingFeedback"></div>
+
+<div id="currentSelection" style="margin-bottom:8px; font-size:12px; font-weight:bold; color: var(--text-primary);">No data loaded</div>
 
 <div class="controls">
+<button onclick="previousMapping()" id="prevBtn" disabled>Previous</button>
+<button onclick="nextMapping()" id="nextBtn" disabled>Next</button>
 <button onclick="clearFields()" class="clearBtn">Clear All</button>
 </div>
 
@@ -579,268 +179,54 @@ footer a:hover {
 
 </div>
 
-<script>
-
-// Theme switching functions
-function switchTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-}
-
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    document.getElementById('themeSelector').value = savedTheme;
-}
-
-// Initialize theme on page load
-window.addEventListener('DOMContentLoaded', initTheme);
-
-function autoFormatDate(element) {
-    let value = element.value.replace(/\D/g, ''); // Remove non-digits
-    
-    if (value.length >= 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length >= 5) {
-        value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-    
-    // Limit to mm/dd/yyyy format
-    if (value.length > 10) {
-        value = value.slice(0, 10);
-    }
-    
-    element.value = value;
-}
-
-function autoFormatDate(element) {
-    let value = element.value.replace(/\D/g, ''); // Remove non-digits
-    
-    if (value.length >= 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length >= 5) {
-        value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-    
-    // Limit to mm/dd/yyyy format
-    if (value.length > 10) {
-        value = value.slice(0, 10);
-    }
-    
-    element.value = value;
-}
-
-function setText(id, value){
-    let el = document.getElementById(id);
-    el.innerText = value;
-    el.title = value; // 🔥 this adds the hover tooltip
-}
-
-function generate(){
-
-let dispute = document.getElementById("dispute").value;
-let ehr = document.getElementById("ehr").value;
-
-if(dispute && ehr){
-
-setText("hcfa", dispute+"_"+ehr+"_HCFA");
-setText("eob", dispute+"_"+ehr+"_PHYSICALEOB");
-setText("hmo", dispute+"_"+ehr+"_INSURANCECARD");
-setText("op", dispute+"_"+ehr+"_OPREPORT");
-setText("op2", dispute+"_"+ehr+"_OPREPORT2");
-setText("op3", dispute+"_"+ehr+"_OPREPORT3");
-
-}
-}
-
-function copyText(id){
-
-let text =
-document.getElementById(id).innerText;
-
-navigator.clipboard.writeText(text);
-
-//alert("Copied: "+text);
-
-}
-
-function clearFields(){
-
-document.getElementById("dispute").value="";
-document.getElementById("ehr").value="";
-
-document.getElementById("hcfa").innerText="";
-document.getElementById("eob").innerText="";
-document.getElementById("hmo").innerText="";
-document.getElementById("op").innerText="";
-document.getElementById("op2").innerText="";
-document.getElementById("op3").innerText="";
-
-clearCaseNotes();
-clearMissingNotes();
-
-}
-
-function validateDateFormat(dateStr) {
-    const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-    return regex.test(dateStr);
-}
-
-function generateCaseNotes() {
-    const frDateCheckbox = document.getElementById("frDateCheckbox").checked;
-    const lastEobCheckbox = document.getElementById("lastEobCheckbox").checked;
-    const claimCheckbox = document.getElementById("claimCheckbox").checked;
-    
-    const frDateSystem = document.getElementById("frDateSystem").value.trim();
-    const frDateCorrect = document.getElementById("frDateCorrect").value.trim();
-    const lastEobSystem = document.getElementById("lastEobSystem").value.trim();
-    const lastEobCorrect = document.getElementById("lastEobCorrect").value.trim();
-    const claimSystem = document.getElementById("claimSystem").value.trim();
-    const claimUser = document.getElementById("claimUser").value.trim();
-    
-    let output = "";
-    let outputs = [];
-    
-    // FR Date logic: Check if only Correct date is filled (Added) or both are filled (Updated)
-    if (frDateCheckbox && frDateCorrect && !frDateSystem) {
-        // Only Correct date is filled - Added message
-        outputs.push(`Added the FR Date (${frDateCorrect}).`);
-    } else if (frDateCheckbox && frDateSystem && frDateCorrect && validateDateFormat(frDateSystem) && validateDateFormat(frDateCorrect)) {
-        // Both dates are filled - Updated message
-        outputs.push(`Updated the FR Date from ${frDateSystem} to ${frDateCorrect}.`);
-    }
-    
-    // Last EOB logic: Check if only Correct date is filled (Added) or both are filled (Updated)
-    if (lastEobCheckbox && lastEobCorrect && !lastEobSystem) {
-        // Only Correct date is filled - Added message
-        outputs.push(`Added the Last EOB (${lastEobCorrect}).`);
-    } else if (lastEobCheckbox && lastEobSystem && lastEobCorrect && validateDateFormat(lastEobSystem) && validateDateFormat(lastEobCorrect)) {
-        // Both dates are filled - Updated message
-        outputs.push(`Updated the Last EOB from ${lastEobSystem} to ${lastEobCorrect}.`);
-    }
-    
-    // Check if both FR Date and Last EOB are in "Added" state
-    const frIsAdded = frDateCheckbox && frDateCorrect && !frDateSystem;
-    const lastEobIsAdded = lastEobCheckbox && lastEobCorrect && !lastEobSystem;
-    
-    if (frIsAdded && lastEobIsAdded) {
-        // Both are Added - replace individual messages with combined message
-        outputs = [];
-        outputs.push(`Added the FR Date and Last EOB (${frDateCorrect}).`);
-    }
-    
-    // Check if both FR Date and Last EOB are in "Updated" state
-    const frIsUpdated = frDateCheckbox && frDateSystem && frDateCorrect && validateDateFormat(frDateSystem) && validateDateFormat(frDateCorrect);
-    const lastEobIsUpdated = lastEobCheckbox && lastEobSystem && lastEobCorrect && validateDateFormat(lastEobSystem) && validateDateFormat(lastEobCorrect);
-    
-    if (frIsUpdated && lastEobIsUpdated) {
-        // Both are Updated - replace individual messages with combined message
-        outputs = [];
-        outputs.push(`Updated the FR Date and Last EOB from ${frDateSystem} to ${lastEobCorrect}.`);
-    }
-    
-    // Check Claim Number (either Added or Updated based on completion)
-    if (claimCheckbox && claimUser && !claimSystem) {
-        // Only correct data is filled - Added message
-        outputs.push(`Added Claim Number (${claimUser}).`);
-    } else if (claimCheckbox && claimSystem && claimUser) {
-        // Both are filled - Updated message
-        outputs.push(`Updated the Claim Number from ${claimSystem} to ${claimUser}.`);
-    }
-    
-    // Combine outputs
-    if (outputs.length > 0) {
-        output = outputs.join(" ");
-    }
-    
-    setText("caseOutput", output);
-}
-
-function clearCaseNotes() {
-    document.getElementById("frDateCheckbox").checked = false;
-    document.getElementById("lastEobCheckbox").checked = false;
-    document.getElementById("claimCheckbox").checked = false;
-    
-    document.getElementById("frDateSystem").value = "";
-    document.getElementById("frDateCorrect").value = "";
-    document.getElementById("lastEobSystem").value = "";
-    document.getElementById("lastEobCorrect").value = "";
-    document.getElementById("claimSystem").value = "";
-    document.getElementById("claimUser").value = "";
-    
-    document.getElementById("caseOutput").innerText = "";
-}
-
-function generateMissingNotes() {
-    const mrNote = document.getElementById("mrNoteCheckbox").checked;
-    const hcfaNote = document.getElementById("hcfaNoteCheckbox").checked;
-    const eobNote = document.getElementById("eobNoteCheckbox").checked;
-    const insCard = document.getElementById("insCardCheckbox").checked;
-    const checkEob = document.getElementById("checkEobCheckbox").checked;
-    
-    // Manage the main notes output (MR, HCFA, EOB combinations)
-    let mainOutput = "";
-    const checkedCount = (mrNote ? 1 : 0) + (hcfaNote ? 1 : 0) + (eobNote ? 1 : 0);
-    
-    if (checkedCount > 0) {
-        let items = [];
-        if (eobNote) items.push("EOB");
-        if (hcfaNote) items.push("HCFA");
-        if (mrNote) items.push("MR");
-        
-        let portal = "";
-        if (eobNote && !hcfaNote && !mrNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if ((mrNote || hcfaNote) && !eobNote) {
-            portal = "USMon portal";
-        } else if (eobNote && hcfaNote && mrNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if (eobNote && mrNote && !hcfaNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if (eobNote && hcfaNote && !mrNote) {
-            portal = "USMon portal/Availity";
-        } else if (hcfaNote && mrNote && !eobNote) {
-            portal = "USMon portal";
-        }
-        
-        mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portal}, Doc Mngmt will need to escalate to customer/IDR2RCM if no physical documents.`;
-    }
-    
-    setText("missingOutput", mainOutput);
-    
-    // INS Card output
-    let insCardOutput = "";
-    if (insCard) {
-        insCardOutput = "Failure: Unable to locate insurance card in USMon portal.";
-    }
-    setText("insCardOutput", insCardOutput);
-    
-    // Check/Production Date EOB output
-    let checkEobOutput = "";
-    if (checkEob) {
-        checkEobOutput = "Failure: There's no physical EOB available in the Phicure portal and no 835 uploaded. A physical EOB was uploaded via Availity, but there's no check date available.";
-    }
-    setText("checkEobOutput", checkEobOutput);
-}
-
-function clearMissingNotes() {
-    document.getElementById("mrNoteCheckbox").checked = false;
-    document.getElementById("hcfaNoteCheckbox").checked = false;
-    document.getElementById("eobNoteCheckbox").checked = false;
-    document.getElementById("insCardCheckbox").checked = false;
-    document.getElementById("checkEobCheckbox").checked = false;
-    
-    document.getElementById("missingOutput").innerText = "";
-    document.getElementById("insCardOutput").innerText = "";
-    document.getElementById("checkEobOutput").innerText = "";
-}
-
-</script>
 <footer>
 	<p>Any Problems, Questions or Suggestions?</p>
 	<p><a href="mailto:angelo.palaroan015@gmail.com">Email Me</a></p>
 </footer>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"></script> 
+<script language="JavaScript"> 
+var numraindrops="150";
+var speed="5";
+var rainsize="2";
+var wind="left";
+var genxgallery="";
+
+function tb5_makeArray(n){ this.length = n; return this.length;
+}
+tb5_messages = new tb5_makeArray(2);
+tb5_messages[0] = "Created by";
+tb5_messages[1] = "♠[•]MrPlayground[•]♠";
+tb5_rptType = 'infinite';
+tb5_rptNbr = 10;
+tb5_speed = 50;
+tb5_delay = 2000;
+var tb5_counter=1;
+var tb5_currMsg=0;
+var tb5_stsmsg="";
+function tb5_shuffle(arr){
+var k;
+for (i=0; i<arr.length; i++){ k = Math.round(Math.random() * (arr.length - i - 1)) + i; temp = arr[i];arr[i]=arr[k];arr[k]=temp;
+}
+return arr;
+}
+tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
+for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; tb5_sts[i] = "*#";
+}
+tb5_arr = tb5_shuffle(tb5_arr);
+function tb5_init(n){
+var k;
+if (n == tb5_arr.length){ if (tb5_currMsg == tb5_messages.length-1){ if ((tb5_rptType == 'finite') && (tb5_counter==tb5_rptNbr)){ clearTimeout(tb5_timerID); return; } tb5_counter++; tb5_currMsg=0; } else{ tb5_currMsg++; } n=0; tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length); tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length); for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; tb5_sts[i] = "+="; } tb5_arr = tb5_shuffle(tb5_arr); tb5_sp=tb5_delay;
+}
+else{ tb5_sp=tb5_speed; k = tb5_arr[n]; tb5_sts[k] = tb5_messages[tb5_currMsg].charAt(k); tb5_stsmsg = ""; for (var i=0; i<tb5_sts.length; i++) tb5_stsmsg += tb5_sts[i]; document.title = tb5_stsmsg; n++; } tb5_timerID = setTimeout("tb5_init("+n+")", tb5_sp);
+}
+function tb5_randomizetitle(){ tb5_init(0);
+}
+tb5_randomizetitle();
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>
+   
