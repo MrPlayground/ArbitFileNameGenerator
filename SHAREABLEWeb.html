@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Document Name Generator</title>
+<style>
+:root {
+    --bg-primary: #f4f6f8;
+    --bg-secondary: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --border-color: #cccccc;
+    --input-bg: #ffffff;
+    --input-border: #cccccc;
+    --output-bg: #eef2f7;
+    --button-primary: #2d89ef;
+    --button-primary-hover: #1b5fbf;
+    --button-clear: #e74c3c;
+    --button-clear-hover: #c0392b;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #252526;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --border-color: #3e3e42;
+    --input-bg: #3c3c3c;
+    --input-border: #5c5c5c;
+    --output-bg: #2d2d30;
+    --button-primary: #0078d4;
+    --button-primary-hover: #106ebe;
+    --button-clear: #f44747;
+    --button-clear-hover: #d32f2f;
+    --shadow: rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="bw"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --border-color: #000000;
+    --input-bg: #ffffff;
+    --input-border: #000000;
+    --output-bg: #f0f0f0;
+    --button-primary: #000000;
+    --button-primary-hover: #333333;
+    --button-clear: #000000;
+    --button-clear-hover: #333333;
+    --shadow: rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="vscode"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --text-primary: #ffffff;
+    --text-secondary: #c9c9c9;
+    --border-color: #f5a623;
+    --input-bg: #0f3460;
+    --input-border: #f5a623;
+    --output-bg: #16213e;
+    --button-primary: #f5a623;
+    --button-primary-hover: #ffb347;
+    --button-clear: #e74c3c;
+    --button-clear-hover: #c0392b;
+    --shadow: rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="sleek"] {
+    --bg-primary: #0a2e1f;
+    --bg-secondary: #0f3a29;
+    --text-primary: #ffffff;
+    --text-secondary: #a8c5b0;
+    --border-color: #1f5a3a;
+    --input-bg: #0f3a29;
+    --input-border: #1f5a3a;
+    --output-bg: #0a2e1f;
+    --button-primary: #3d8b5c;
+    --button-primary-hover: #4a9d6a;
+    --button-clear: #b91c1c;
+    --button-clear-hover: #dc2626;
+    --shadow: rgba(0, 0, 0, 0.5);
+}
+
+body{
+    font-family: Arial;
+    background:  var(--bg-primary);
+    color: var(--text-primary);
+    display:flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    align-items:center;
+    padding-top: 60px;
+    padding-bottom: 120px;
+    margin:0;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.theme-selector{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.theme-selector select {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.main-container{
+    display:flex;
+    gap:15px;
+    width:100%;
+    max-width:1400px;
+    padding:0 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.container{
+    background:var(--bg-secondary);
+    color: var(--text-primary);
+    padding:15px;
+    border-radius:10px;
+    flex:1;
+    min-width:300px;
+    box-shadow:0 5px 15px var(--shadow);
+    overflow-y:auto;
+    max-height:calc(100vh - 180px);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    box-sizing: border-box;
+}
+
+h2{
+	text-align:center; 
+	margin:0 0 12px 0;
+	font-size:18px;
+	color: var(--text-primary);
+}
+
+h3{
+	margin:12px 0 8px 0;
+	color:var(--text-secondary);
+	font-size:15px;
+}
+
+label{
+	display:block;
+	font-size:13px;
+	margin-bottom:2px;
+	color: var(--text-primary);
+}
+
+input[type="text"]{
+    width:95%;
+    padding:6px;
+    margin-top:2px;
+    margin-bottom:8px;
+    border-radius:4px;
+    border:1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size:12px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+textarea{
+    width:95%;
+    padding:6px;
+    margin-top:2px;
+    margin-bottom:8px;
+    border-radius:4px;
+    border:1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size:12px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    font-family: Arial;
+}
+
+input[type="checkbox"]{
+	width:auto;
+	margin-right:6px;
+	cursor:pointer;
+	accent-color: var(--button-primary);
+}
+
+.row{
+    display:flex;
+    align-items:center;
+    margin-bottom:6px;
+    font-size:12px;
+}
+
+.generated{
+    background:var(--output-bg);
+    color: var(--text-primary);
+    padding:6px;
+    border-radius:4px;
+    flex:1;
+    margin-right:6px;
+    min-width:0;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    cursor:pointer;
+    font-size:11px;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+button{
+    background:var(--button-primary);
+    color:white;
+    border:none;
+    padding:5px 10px;
+    border-radius:4px;
+    cursor:pointer;
+    margin-right:3px;
+    flex-shrink:0;
+    font-size:11px;
+    transition: background-color 0.3s;
+}
+
+button:hover{
+    background:var(--button-primary-hover);
+}
+
+.clearBtn{
+    background:var(--button-clear);
+}
+
+.clearBtn:hover{
+    background:var(--button-clear-hover);
+}
+
+.label{
+    width:60px;
+    font-weight:bold;
+    font-size:11px;
+    color: var(--text-primary);
+}
+
+.controls{
+    margin-bottom:8px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 8px 0;
+}
+
+.case-notes-section {
+    border:1px solid var(--border-color);
+    padding:8px;
+    border-radius:4px;
+    margin-bottom:8px;
+    background:var(--output-bg);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.note-field {
+    margin-bottom:6px;
+}
+
+.note-field label {
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+    margin-bottom:2px;
+    cursor:pointer;
+    font-size:12px;
+    color: var(--text-primary);
+}
+
+.note-field input[type="checkbox"] {
+    margin-right:6px;
+    margin-bottom:0;
+    cursor:pointer;
+}
+
+.claim-inputs {
+    display:flex;
+    gap:4px;
+    margin-top:3px;
+}
+
+.claim-inputs input {
+    flex:1;
+    padding:5px;
+    border:1px solid var(--input-border);
+    border-radius:3px;
+    margin:0;
+    width:100% !important;
+    font-size:11px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.two-output-row {
+	display:flex;
+	gap:8px;
+	margin-bottom:8px;
+}
+
+.two-output-row .row {
+	flex:1;
+	margin-bottom:0;
+}
+
+footer{
+	background: var(--bg-secondary);
+	color: var(--text-primary);
+	padding:4px;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	width:100%;
+	font-size:10px;
+	border-top: 1px solid var(--border-color);
+	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+footer a {
+	color: var(--button-primary);
+	text-decoration: none;
+	transition: color 0.3s;
+}
+
+footer a:hover {
+	color: var(--button-primary-hover);
+	text-decoration: underline;
+}
+
+#mappingFeedback {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+        padding-bottom: 100px;
+    }
+    
+    .theme-selector {
+        top: 5px;
+        right: 5px;
+    }
+    
+    .theme-selector select {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+    
+    .main-container {
+        gap: 10px;
+        padding: 0 5px;
+    }
+    
+    .container {
+        padding: 10px;
+        min-width: 280px;
+        max-height: calc(100vh - 200px);
+    }
+    
+    h2 {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 13px;
+    }
+    
+    label {
+        font-size: 12px;
+    }
+    
+    input[type="text"], textarea {
+        font-size: 11px;
+        padding: 5px;
+    }
+    
+    button {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    .generated {
+        font-size: 10px;
+        padding: 5px;
+    }
+    
+    .label {
+        font-size: 10px;
+    }
+    
+    footer {
+        font-size: 9px;
+        padding: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .container {
+        min-width: unset;
+        width: 100%;
+    }
+    
+    .theme-selector select {
+        font-size: 10px;
+        padding: 3px 5px;
+    }
+    
+    .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .generated {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .controls {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    button {
+        flex: 1;
+        min-width: 80px;
+    }
+    
+    footer {
+        font-size: 8px;
+        padding: 2px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="theme-selector">
+  <select id="themeSelector" onchange="switchTheme(this.value)">
+    <option value="light">Light Mode</option>
+    <option value="dark">Dark Mode</option>
+    <option value="bw">Black & White</option>
+    <option value="vscode">Avengers Endgame</option>
+    <option value="sleek">Sleek</option>
+  </select>
+</div>
+
+<div class="main-container">
+
+<!-- SECTION 1: File Name Generator -->
+<div class="container">
+
+<h2>File Name Generator</h2>
+
+<label>ARBIT Numbers (one per line)</label>
+<textarea id="arbitInputArea" rows="5"></textarea>
+
+<label>EHR Numbers (one per line)</label>
+<textarea id="ehrInputArea" rows="5"></textarea>
+
+<button onclick="loadArbitEHRMappings()">Load Data</button>
+
+<div id="mappingFeedback"></div>
+
+<div id="currentSelection" style="margin-bottom:8px; font-size:12px; font-weight:bold; color: var(--text-primary);">No data loaded</div>
+
+<div class="controls">
+<button onclick="previousMapping()" id="prevBtn" disabled>Previous</button>
+<button onclick="nextMapping()" id="nextBtn" disabled>Next</button>
+<button onclick="clearFields()" class="clearBtn">Clear All</button>
+</div>
+
+<hr style="margin:8px 0;">
+
+<div class="row">
+<div class="label">HCFA</div>
+<div id="hcfa" class="generated"></div>
+<button onclick="copyText('hcfa')">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">EOB</div>
+<div id="eob" class="generated"></div>
+<button onclick="copyText('eob')">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">HMO</div>
+<div id="hmo" class="generated"></div>
+<button onclick="copyText('hmo')">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">OP</div>
+<div id="op" class="generated"></div>
+<button onclick="copyText('op')">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">OP2</div>
+<div id="op2" class="generated"></div>
+<button onclick="copyText('op2')">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">OP3</div>
+<div id="op3" class="generated"></div>
+<button onclick="copyText('op3')">Copy</button>
+</div>
+
+</div>
+
+<!-- SECTION 2: Arbit Case Notes -->
+<div class="container">
+
+<h2>Arbit Case Notes</h2>
+
+<div class="case-notes-section">
+  <div class="note-field">
+    <label>
+      <input type="checkbox" id="frDateCheckbox" onchange="generateCaseNotes()"> FR Date
+    </label>
+    <div class="claim-inputs">
+      <input type="text" id="frDateSystem" placeholder="System date" oninput="autoFormatDate(this); generateCaseNotes()">
+      <input type="text" id="frDateCorrect" placeholder="Correct date" oninput="autoFormatDate(this); generateCaseNotes()">
+    </div>
+  </div>
+
+  <div class="note-field">
+    <label>
+      <input type="checkbox" id="lastEobCheckbox" onchange="generateCaseNotes()"> Last EOB
+    </label>
+    <div class="claim-inputs">
+      <input type="text" id="lastEobSystem" placeholder="System date" oninput="autoFormatDate(this); generateCaseNotes()">
+      <input type="text" id="lastEobCorrect" placeholder="Correct date" oninput="autoFormatDate(this); generateCaseNotes()">
+    </div>
+  </div>
+
+  <div class="note-field">
+    <label>
+      <input type="checkbox" id="claimCheckbox" onchange="generateCaseNotes()"> Claim Number
+    </label>
+    <div class="claim-inputs">
+      <input type="text" id="claimSystem" placeholder="System data" oninput="generateCaseNotes()">
+      <input type="text" id="claimUser" placeholder="Correct data" oninput="generateCaseNotes()">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="label">Output</div>
+  <div id="caseOutput" class="generated"></div>
+  <button onclick="copyText('caseOutput')">Copy</button>
+</div>
+
+</div>
+
+<!-- SECTION 3: Missing Notes (MPOWER and AUDX | USMON Portal) -->
+<div class="container">
+
+<h2>Missing Notes</h2>
+<label style="font-size:11px;color:#666;">(MPOWER and AUDX | USMON Portal)</label>
+
+<div class="case-notes-section">
+  <div class="note-field">
+    <label><input type="checkbox" id="mrNoteCheckbox" onchange="generateMissingNotes()"> MR Note</label>
+  </div>
+  <div class="note-field">
+    <label><input type="checkbox" id="hcfaNoteCheckbox" onchange="generateMissingNotes()"> HCFA Note</label>
+  </div>
+  <div class="note-field">
+    <label><input type="checkbox" id="eobNoteCheckbox" onchange="generateMissingNotes()"> EOB Note</label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="label">Output</div>
+  <div id="missingOutput" class="generated"></div>
+  <button onclick="copyText('missingOutput')">Copy</button>
+</div>
+
+<div class="case-notes-section" style="margin-top:12px;">
+  <div class="note-field">
+    <label><input type="checkbox" id="insCardCheckbox" onchange="generateMissingNotes()"> INS Card</label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="label">Output</div>
+  <div id="insCardOutput" class="generated"></div>
+  <button onclick="copyText('insCardOutput')">Copy</button>
+</div>
+
+<div class="case-notes-section" style="margin-top:12px;">
+  <div class="note-field">
+    <label><input type="checkbox" id="checkEobCheckbox" onchange="generateMissingNotes()"> Check/Production Date EOB</label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="label">Output</div>
+  <div id="checkEobOutput" class="generated"></div>
+  <button onclick="copyText('checkEobOutput')">Copy</button>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+	<p>Any Problems, Questions or Suggestions?</p>
+	<p><a href="mailto:angelo.palaroan015@gmail.com">Email Me</a></p>
+</footer>
+
+</footer>
+
+<script>
+// Theme switching functions
+function switchTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.getElementById('themeSelector').value = savedTheme;
+}
+
+// Initialize theme on page load
+window.addEventListener('DOMContentLoaded', initTheme);
+
+// Disable inspect element/view-source as much as possible in browser (not foolproof)
+window.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+window.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === 'F12') {
+        e.preventDefault();
+    }
+    // Ctrl+Shift+I / Cmd+Shift+I
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+    }
+    // Ctrl+Shift+J / Cmd+Shift+J
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+    }
+    // Ctrl+U / Cmd+U
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+    }
+});
+
+let arbitEHRMap = {};
+let mappings = [];
+let currentIndex = -1;
+
+function loadArbitEHRMappings() {
+    const arbitNumbers = document.getElementById('arbitInputArea').value.split('\n').map(s => s.trim()).filter(s => s !== '');
+    const ehrNumbers = document.getElementById('ehrInputArea').value.split('\n').map(s => s.trim()).filter(s => s !== '');
+    const feedback = document.getElementById('mappingFeedback');
+
+    if (arbitNumbers.length === 0 || ehrNumbers.length === 0) {
+      feedback.textContent = 'Please enter both ARBIT numbers and EHRs.';
+      feedback.style.color = '#dc2626';
+      return;
+    }
+    if (arbitNumbers.length !== ehrNumbers.length) {
+      feedback.textContent = 'Error: Number of ARBITs and EHRs do not match.';
+      feedback.style.color = '#dc2626';
+      return;
+    }
+
+    arbitEHRMap = {};
+    mappings = [];
+    for (let i = 0; i < arbitNumbers.length; i++) {
+      arbitEHRMap[arbitNumbers[i]] = ehrNumbers[i];
+      mappings.push({arbit: arbitNumbers[i], ehr: ehrNumbers[i]});
+    }
+    currentIndex = 0;
+    updateCurrentMapping();
+    feedback.textContent = `Successfully loaded ${arbitNumbers.length} data entries.`;
+    feedback.style.color = '#16a34a';
+    document.getElementById('prevBtn').disabled = false;
+    document.getElementById('nextBtn').disabled = false;
+}
+
+function updateCurrentMapping() {
+    if (mappings.length > 0 && currentIndex >= 0 && currentIndex < mappings.length) {
+        document.getElementById('currentSelection').textContent = `Data ${currentIndex + 1} of ${mappings.length}: ARBIT ${mappings[currentIndex].arbit} - EHR ${mappings[currentIndex].ehr}`;
+        generate();
+    }
+}
+
+function previousMapping() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateCurrentMapping();
+    }
+}
+
+function nextMapping() {
+    if (currentIndex < mappings.length - 1) {
+        currentIndex++;
+        updateCurrentMapping();
+    }
+}
+
+function autoFormatDate(element) {
+    let value = element.value.replace(/\D/g, ''); // Remove non-digits
+    
+    if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    if (value.length >= 5) {
+        value = value.slice(0, 5) + '/' + value.slice(5, 9);
+    }
+    
+    // Limit to mm/dd/yyyy format
+    if (value.length > 10) {
+        value = value.slice(0, 10);
+    }
+    
+    element.value = value;
+}
+
+function setText(id, value){
+    let el = document.getElementById(id);
+    el.innerText = value;
+    el.title = value; //  this adds the hover tooltip
+}
+
+function generate(){
+
+if (mappings.length > 0 && currentIndex >= 0 && currentIndex < mappings.length) {
+    let dispute = mappings[currentIndex].arbit;
+    let ehr = mappings[currentIndex].ehr;
+
+    setText("hcfa", dispute+"_"+ehr+"_HCFA");
+    setText("eob", dispute+"_"+ehr+"_PHYSICALEOB");
+    setText("hmo", dispute+"_"+ehr+"_INSURANCECARD");
+    setText("op", dispute+"_"+ehr+"_OPREPORT");
+    setText("op2", dispute+"_"+ehr+"_OPREPORT2");
+    setText("op3", dispute+"_"+ehr+"_OPREPORT3");
+} else {
+    // Clear outputs if no mappings
+    setText("hcfa", "");
+    setText("eob", "");
+    setText("hmo", "");
+    setText("op", "");
+    setText("op2", "");
+    setText("op3", "");
+}
+
+}
+
+function copyText(id){
+
+let text =
+document.getElementById(id).innerText;
+
+navigator.clipboard.writeText(text);
+
+//alert("Copied: "+text);
+
+}
+
+function clearFields(){
+    if (!confirm("Are you sure you want to clear all data? This action cannot be undone. Bahala ka!")) {
+        return;
+    }
+
+mappings = [];
+arbitEHRMap = {};
+currentIndex = -1;
+
+document.getElementById('arbitInputArea').value = '';
+document.getElementById('ehrInputArea').value = '';
+document.getElementById('mappingFeedback').textContent = '';
+document.getElementById('currentSelection').textContent = 'No data loaded';
+document.getElementById('prevBtn').disabled = true;
+document.getElementById('nextBtn').disabled = true;
+
+document.getElementById("hcfa").innerText="";
+document.getElementById("eob").innerText="";
+document.getElementById("hmo").innerText="";
+document.getElementById("op").innerText="";
+document.getElementById("op2").innerText="";
+document.getElementById("op3").innerText="";
+
+clearCaseNotes();
+clearMissingNotes();
+
+}
+
+function validateDateFormat(dateStr) {
+    const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+    return regex.test(dateStr);
+}
+
+function generateCaseNotes() {
+    const frDateCheckbox = document.getElementById("frDateCheckbox").checked;
+    const lastEobCheckbox = document.getElementById("lastEobCheckbox").checked;
+    const claimCheckbox = document.getElementById("claimCheckbox").checked;
+    
+    const frDateSystem = document.getElementById("frDateSystem").value.trim();
+    const frDateCorrect = document.getElementById("frDateCorrect").value.trim();
+    const lastEobSystem = document.getElementById("lastEobSystem").value.trim();
+    const lastEobCorrect = document.getElementById("lastEobCorrect").value.trim();
+    const claimSystem = document.getElementById("claimSystem").value.trim();
+    const claimUser = document.getElementById("claimUser").value.trim();
+    
+    let output = "";
+    let outputs = [];
+    
+    // FR Date logic: Check if only Correct date is filled (Added) or both are filled (Updated)
+    if (frDateCheckbox && frDateCorrect && !frDateSystem) {
+        // Only Correct date is filled - Added message
+        outputs.push(`Added the FR Date (${frDateCorrect}). - SS Doc Mngmt Team`);
+    } else if (frDateCheckbox && frDateSystem && frDateCorrect && validateDateFormat(frDateSystem) && validateDateFormat(frDateCorrect)) {
+        // Both dates are filled - Updated message
+        outputs.push(`Updated the FR Date from ${frDateSystem} to ${frDateCorrect}. - SS Doc Mngmt Team`);
+    }
+    
+    // Last EOB logic: Check if only Correct date is filled (Added) or both are filled (Updated)
+    if (lastEobCheckbox && lastEobCorrect && !lastEobSystem) {
+        // Only Correct date is filled - Added message
+        outputs.push(`Added the Last EOB (${lastEobCorrect}). - SS Doc Mngmt Team`);
+    } else if (lastEobCheckbox && lastEobSystem && lastEobCorrect && validateDateFormat(lastEobSystem) && validateDateFormat(lastEobCorrect)) {
+        // Both dates are filled - Updated message
+        outputs.push(`Updated the Last EOB from ${lastEobSystem} to ${lastEobCorrect}. - SS Doc Mngmt Team`);
+    }
+    
+    // Check if both FR Date and Last EOB are in "Added" state
+    const frIsAdded = frDateCheckbox && frDateCorrect && !frDateSystem;
+    const lastEobIsAdded = lastEobCheckbox && lastEobCorrect && !lastEobSystem;
+    
+    if (frIsAdded && lastEobIsAdded) {
+        // Both are Added - replace individual messages with combined message
+        outputs = [];
+        outputs.push(`Added the FR Date and Last EOB (${frDateCorrect}). - SS Doc Mngmt Team`);
+    }
+    
+    // Check if both FR Date and Last EOB are in "Updated" state
+    const frIsUpdated = frDateCheckbox && frDateSystem && frDateCorrect && validateDateFormat(frDateSystem) && validateDateFormat(frDateCorrect);
+    const lastEobIsUpdated = lastEobCheckbox && lastEobSystem && lastEobCorrect && validateDateFormat(lastEobSystem) && validateDateFormat(lastEobCorrect);
+    
+    if (frIsUpdated && lastEobIsUpdated) {
+        // Both are Updated - replace individual messages with combined message
+        outputs = [];
+        outputs.push(`Updated the FR Date and Last EOB from ${frDateSystem} to ${lastEobCorrect}. - SS Doc Mngmt Team`);
+    }
+    
+    // Check Claim Number (either Added or Updated based on completion)
+    if (claimCheckbox && claimUser && !claimSystem) {
+        // Only correct data is filled - Added message
+        outputs.push(`Added Claim Number (${claimUser}). - SS Doc Mngmt Team`);
+    } else if (claimCheckbox && claimSystem && claimUser) {
+        // Both are filled - Updated message
+        outputs.push(`Updated the Claim Number from ${claimSystem} to ${claimUser}. - SS Doc Mngmt Team`);
+    }
+    
+    // Combine outputs
+    if (outputs.length > 0) {
+        output = outputs.join(" ");
+    }
+    
+    setText("caseOutput", output);
+}
+
+function clearCaseNotes() {
+    document.getElementById("frDateCheckbox").checked = false;
+    document.getElementById("lastEobCheckbox").checked = false;
+    document.getElementById("claimCheckbox").checked = false;
+    
+    document.getElementById("frDateSystem").value = "";
+    document.getElementById("frDateCorrect").value = "";
+    document.getElementById("lastEobSystem").value = "";
+    document.getElementById("lastEobCorrect").value = "";
+    document.getElementById("claimSystem").value = "";
+    document.getElementById("claimUser").value = "";
+    
+    document.getElementById("caseOutput").innerText = "";
+}
+
+function generateMissingNotes() {
+    const mrNote = document.getElementById("mrNoteCheckbox").checked;
+    const hcfaNote = document.getElementById("hcfaNoteCheckbox").checked;
+    const eobNote = document.getElementById("eobNoteCheckbox").checked;
+    const insCard = document.getElementById("insCardCheckbox").checked;
+    const checkEob = document.getElementById("checkEobCheckbox").checked;
+    
+    // Manage the main notes output (MR, HCFA, EOB combinations)
+    let mainOutput = "";
+    const checkedCount = (mrNote ? 1 : 0) + (hcfaNote ? 1 : 0) + (eobNote ? 1 : 0);
+    
+    if (checkedCount > 0) {
+        let items = [];
+        if (eobNote) items.push("EOB");
+        if (hcfaNote) items.push("HCFA");
+        if (mrNote) items.push("MR");
+        
+        let portal = "";
+        if (eobNote && !hcfaNote && !mrNote) {
+            portal = "USMon portal/RCM/Availity";
+        } else if ((mrNote || hcfaNote) && !eobNote) {
+            portal = "USMon portal";
+        } else if (eobNote && hcfaNote && mrNote) {
+            portal = "USMon portal/RCM/Availity";
+        } else if (eobNote && mrNote && !hcfaNote) {
+            portal = "USMon portal/RCM/Availity";
+        } else if (eobNote && hcfaNote && !mrNote) {
+            portal = "USMon portal/Availity";
+        } else if (hcfaNote && mrNote && !eobNote) {
+            portal = "USMon portal";
+        }
+        
+        mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portal}, Doc Mngmt will need to escalate to customer/IDR2RCM if no physical documents. - SS Doc Mngmt Team`;
+    }
+    
+    setText("missingOutput", mainOutput);
+    
+    // INS Card output
+    let insCardOutput = "";
+    if (insCard) {
+        insCardOutput = "Failure: Unable to locate insurance card in USMon portal. - SS Doc Mngmt Team";
+    }
+    setText("insCardOutput", insCardOutput);
+    
+    // Check/Production Date EOB output
+    let checkEobOutput = "";
+    if (checkEob) {
+        checkEobOutput = "Failure: There's no physical EOB available in the Phicure portal and no 835 uploaded. A physical EOB was uploaded via Availity, but there's no check date available. - SS Doc Mngmt Team";
+    }
+    setText("checkEobOutput", checkEobOutput);
+}
+
+function clearMissingNotes() {
+    document.getElementById("mrNoteCheckbox").checked = false;
+    document.getElementById("hcfaNoteCheckbox").checked = false;
+    document.getElementById("eobNoteCheckbox").checked = false;
+    document.getElementById("insCardCheckbox").checked = false;
+    document.getElementById("checkEobCheckbox").checked = false;
+    
+    document.getElementById("missingOutput").innerText = "";
+    document.getElementById("insCardOutput").innerText = "";
+    document.getElementById("checkEobOutput").innerText = "";
+}
+</script>
+</body>
+</html>
+   
