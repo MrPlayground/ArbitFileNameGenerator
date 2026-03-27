@@ -587,7 +587,15 @@ footer a:hover {
 <div class="container">
 
 <h2>Missing Notes</h2>
-<label style="font-size:11px;color:#666;">(MPOWER and AUDX | USMON Portal)</label>
+<label style="font-size:11px;color:#666;" id="missingNotesLabel">(MPOWER and AUDX | USMON Portal)</label>
+
+<div style="margin-bottom: 12px;">
+  <label for="portalSelector" style="font-size:13px;">Select Portal:</label>
+  <select id="portalSelector" onchange="updateMissingNotesLabel(); generateMissingNotes();" style="margin-left: 8px; padding: 4px; border-radius: 4px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary);">
+    <option value="mpower">MPOWER</option>
+    <option value="pep">PEP</option>
+  </select>
+</div>
 
 <div class="case-notes-section">
   <div class="note-field">
@@ -914,7 +922,19 @@ function clearCaseNotes() {
     document.getElementById("caseOutput").innerText = "";
 }
 
+function updateMissingNotesLabel() {
+    const portal = document.getElementById("portalSelector").value;
+    const label = document.getElementById("missingNotesLabel");
+    
+    if (portal === "pep") {
+        label.textContent = "(PEP-GALVESTON-LONGVIEW-TYLER-PHG | PHICURE PORTAL)";
+    } else {
+        label.textContent = "(MPOWER and AUDX | USMON Portal)";
+    }
+}
+
 function generateMissingNotes() {
+    const portal = document.getElementById("portalSelector").value;
     const mrNote = document.getElementById("mrNoteCheckbox").checked;
     const hcfaNote = document.getElementById("hcfaNoteCheckbox").checked;
     const eobNote = document.getElementById("eobNoteCheckbox").checked;
@@ -926,39 +946,72 @@ function generateMissingNotes() {
     const checkedCount = (mrNote ? 1 : 0) + (hcfaNote ? 1 : 0) + (eobNote ? 1 : 0);
     
     if (checkedCount > 0) {
-        let items = [];
-        if (eobNote) items.push("EOB");
-        if (hcfaNote) items.push("HCFA");
-        if (mrNote) items.push("MR");
-        
-        let portal = "";
-        if (eobNote && !hcfaNote && !mrNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if ((mrNote || hcfaNote) && !eobNote) {
-            portal = "USMon portal";
-        } else if (eobNote && hcfaNote && mrNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if (eobNote && mrNote && !hcfaNote) {
-            portal = "USMon portal/RCM/Availity";
-        } else if (eobNote && hcfaNote && !mrNote) {
-            portal = "USMon portal/Availity";
-        } else if (hcfaNote && mrNote && !eobNote) {
-            portal = "USMon portal";
+        if (portal === "pep") {
+            // PEP specific messages
+            let messages = [];
+            
+            if (mrNote && !hcfaNote && !eobNote) {
+                messages.push("Failure: MR processing failed by BOT, Doc Mngmt will need to escalate to Client Success and Data Team if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (hcfaNote && !mrNote && !eobNote) {
+                messages.push("Failure: Unable to locate HCFA in Phicure portal, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (eobNote && !mrNote && !hcfaNote) {
+                messages.push("Failure: Unable to locate EOB in Phicure portal/Availity, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (eobNote && hcfaNote && mrNote) {
+                messages.push("Failure: Unable to locate EOB & HCFA in Phicure portal/Availity, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents.");
+                messages.push("Failure: MR processing failed by BOT, Doc Mngmt will need to escalate to Client Success and Data Team if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (eobNote && mrNote && !hcfaNote) {
+                messages.push("Failure: Unable to locate EOB in Phicure portal/Availity, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents.");
+                messages.push("Failure: MR processing failed by BOT, Doc Mngmt will need to escalate to Client Success and Data Team if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (hcfaNote && mrNote && !eobNote) {
+                messages.push("Failure: Unable to locate HCFA in Phicure portal, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents.");
+                messages.push("Failure: MR processing failed by BOT, Doc Mngmt will need to escalate to Client Success and Data Team if no physical documents. -SS Doc Mngmt Team");
+            }
+            if (eobNote && hcfaNote && !mrNote) {
+                messages.push("Failure: Unable to locate EOB & HCFA in Phicure portal/Availity, Doc Mngmt will need to escalate to Alert Dataplatform Monitoring if no physical documents. -SS Doc Mngmt Team");
+            }
+            
+            mainOutput = messages.join(" | ");
+        } else {
+            // MPOWER/AUDX messages (existing logic)
+            let items = [];
+            if (eobNote) items.push("EOB");
+            if (hcfaNote) items.push("HCFA");
+            if (mrNote) items.push("MR");
+            
+            let portalName = "";
+            if (eobNote && !hcfaNote && !mrNote) {
+                portalName = "USMon portal/RCM/Availity";
+            } else if ((mrNote || hcfaNote) && !eobNote) {
+                portalName = "USMon portal";
+            } else if (eobNote && hcfaNote && mrNote) {
+                portalName = "USMon portal/RCM/Availity";
+            } else if (eobNote && mrNote && !hcfaNote) {
+                portalName = "USMon portal/RCM/Availity";
+            } else if (eobNote && hcfaNote && !mrNote) {
+                portalName = "USMon portal/Availity";
+            } else if (hcfaNote && mrNote && !eobNote) {
+                portalName = "USMon portal";
+            }
+            
+            mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portalName}, Doc Mngmt will need to escalate to customer/IDR2RCM if no physical documents. - SS Doc Mngmt Team`;
         }
-        
-        mainOutput = `Failure: Unable to locate ${items.join("/")} in ${portal}, Doc Mngmt will need to escalate to customer/IDR2RCM if no physical documents. - SS Doc Mngmt Team`;
     }
     
     setText("missingOutput", mainOutput);
     
-    // INS Card output
+    // INS Card output - same for both portals
     let insCardOutput = "";
     if (insCard) {
         insCardOutput = "Failure: Unable to locate insurance card in USMon portal. - SS Doc Mngmt Team";
     }
     setText("insCardOutput", insCardOutput);
     
-    // Check/Production Date EOB output
+    // Check/Production Date EOB output - same for both portals
     let checkEobOutput = "";
     if (checkEob) {
         checkEobOutput = "Failure: There's no physical EOB available in the Phicure portal and no 835 uploaded. A physical EOB was uploaded via Availity, but there's no check date available. - SS Doc Mngmt Team";
@@ -967,6 +1020,9 @@ function generateMissingNotes() {
 }
 
 function clearMissingNotes() {
+    document.getElementById("portalSelector").value = "mpower";
+    updateMissingNotesLabel();
+    
     document.getElementById("mrNoteCheckbox").checked = false;
     document.getElementById("hcfaNoteCheckbox").checked = false;
     document.getElementById("eobNoteCheckbox").checked = false;
