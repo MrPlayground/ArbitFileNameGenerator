@@ -17,6 +17,10 @@
   </select>
 </div>
 
+<div class="version-history-selector">
+  <button onclick="showVersionHistory()" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); cursor: pointer; font-size: 12px;">Version History</button>
+</div>
+
 <div class="main-container">
 
 <!-- SECTION 1: File Name Generator -->
@@ -131,7 +135,15 @@
 <div class="container">
 
 <h2>Missing Notes</h2>
-<label style="font-size:11px;color:#666;">(MPOWER and AUDX | USMON Portal)</label>
+<label style="font-size:11px;color:#666;" id="missingNotesLabel">(MPOWER and AUDX | USMON Portal)</label>
+
+<div style="margin-bottom: 12px;">
+  <label for="portalSelector" style="font-size:13px;">Select Portal:</label>
+  <select id="portalSelector" onchange="updateMissingNotesLabel(); generateMissingNotes();" style="margin-left: 8px; padding: 4px; border-radius: 4px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary);">
+    <option value="mpower">MPOWER</option>
+    <option value="pep">PEP</option>
+  </select>
+</div>
 
 <div class="case-notes-section">
   <div class="note-field">
@@ -177,6 +189,51 @@
 
 </div>
 
+</div>
+
+<!-- Version History Modal -->
+<div id="versionModal" class="version-modal">
+  <div class="version-modal-content">
+    <div class="version-modal-header">
+      <h2>Version History</h2>
+      <button class="version-close" onclick="hideVersionHistory()">&times;</button>
+    </div>
+    <div class="version-content">
+      <div class="version-entry">
+        <h3>v2.1.0 - March 27, 2026</h3>
+        <div class="date">Latest Update</div>
+        <ul>
+          <li>Added PEP (PEP-GALVESTON-LONGVIEW-TYLER-PHG) portal support for missing case notes</li>
+          <li>Added dropdown selector for MPOWER vs PEP portals</li>
+          <li>Updated missing case notes messages for PEP with Phicure portal references</li>
+          <li>Added version history modal with changelog</li>
+          <li>Code obfuscated.</li>
+        </ul>
+      </div>
+      
+      <div class="version-entry">
+        <h3>v2.0.0 - Previous Version</h3>
+        <div class="date">Major Update</div>
+        <ul>
+          <li>Complete UI redesign with multiple theme support</li>
+          <li>Added dark mode, black & white, and custom themes</li>
+          <li>Improved responsive design and mobile compatibility</li>
+          <li>Enhanced missing notes automation</li>
+        </ul>
+      </div>
+      
+      <div class="version-entry">
+        <h3>v1.5.0 - Initial Features</h3>
+        <div class="date">Foundation Release</div>
+        <ul>
+          <li>Document name generator functionality</li>
+          <li>Case notes automation</li>
+          <li>Missing document reporting</li>
+          <li>Basic UI with light theme</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer>
