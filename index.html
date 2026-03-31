@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Document Name Generator</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,7 +13,12 @@
     <option value="dark">Dark Mode</option>
     <option value="bw">Black & White</option>
     <option value="vscode">Avengers Endgame</option>
-    <option value="sleek">Sleek</option>
+    <option value="sleek">Neon</option>
+    <option value="obsidian">Obsidian</option>
+    <option value="dracula">Dracula</option>
+    <option value="trichromacy">Trichromacy (High Contrast)</option>
+    <option value="dichromacy">Dichromacy (Blue-Yellow)</option>
+    <option value="monochromacy">Monochromacy (Grayscale)</option>
   </select>
 </div>
 
@@ -51,38 +56,33 @@
 <div class="row">
 <div class="label">HCFA</div>
 <div id="hcfa" class="generated"></div>
-<button onclick="copyText('hcfa')">Copy</button>
+<button onclick="copyText('hcfa', this)">Copy</button>
 </div>
 
 <div class="row">
 <div class="label">EOB</div>
 <div id="eob" class="generated"></div>
-<button onclick="copyText('eob')">Copy</button>
+<button onclick="copyText('eob', this)">Copy</button>
 </div>
 
 <div class="row">
-<div class="label">HMO</div>
+<div class="label">INS</div>
 <div id="hmo" class="generated"></div>
-<button onclick="copyText('hmo')">Copy</button>
+<button onclick="copyText('hmo', this)">Copy</button>
 </div>
 
 <div class="row">
 <div class="label">OP</div>
 <div id="op" class="generated"></div>
-<button onclick="copyText('op')">Copy</button>
+<button onclick="copyText('op', this)">Copy</button>
 </div>
 
 <div class="row">
-<div class="label">OP2</div>
-<div id="op2" class="generated"></div>
-<button onclick="copyText('op2')">Copy</button>
+<div class="label">VOB</div>
+<div id="vob" class="generated"></div>
+<button onclick="copyText('vob', this)">Copy</button>
 </div>
 
-<div class="row">
-<div class="label">OP3</div>
-<div id="op3" class="generated"></div>
-<button onclick="copyText('op3')">Copy</button>
-</div>
 
 </div>
 
@@ -126,7 +126,7 @@
 <div class="row">
   <div class="label">Output</div>
   <div id="caseOutput" class="generated"></div>
-  <button onclick="copyText('caseOutput')">Copy</button>
+  <button onclick="copyText('caseOutput', this)">Copy</button>
 </div>
 
 </div>
@@ -142,49 +142,100 @@
   <select id="portalSelector" onchange="updateMissingNotesLabel(); generateMissingNotes();" style="margin-left: 8px; padding: 4px; border-radius: 4px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary);">
     <option value="mpower">MPOWER</option>
     <option value="pep">PEP</option>
+    <option value="nutex">NUTEX</option>
   </select>
 </div>
 
-<div class="case-notes-section">
+<div id="missingNotesCheckboxes" class="case-notes-section">
   <div class="note-field">
     <label><input type="checkbox" id="mrNoteCheckbox" onchange="generateMissingNotes()"> MR Note</label>
   </div>
-  <div class="note-field">
+  <div class="note-field" id="hcfaNoteContainer">
     <label><input type="checkbox" id="hcfaNoteCheckbox" onchange="generateMissingNotes()"> HCFA Note</label>
   </div>
   <div class="note-field">
     <label><input type="checkbox" id="eobNoteCheckbox" onchange="generateMissingNotes()"> EOB Note</label>
+  </div>
+  <div class="note-field" id="cptNoteContainer" style="display:none;">
+    <label><input type="checkbox" id="cptNoteCheckbox" onchange="generateMissingNotes()"> Multiple CPT Code</label>
+  </div>
+</div>
+
+<div id="missingNotesRadios" class="case-notes-section" style="display:none;">
+  <div class="note-field">
+    <label><input type="radio" name="nutexNote" value="ins" onchange="generateMissingNotes()"> INS Card</label>
+  </div>
+  <div class="note-field">
+    <label><input type="radio" name="nutexNote" value="cpt" onchange="generateMissingNotes()"> Multiple CPT Code</label>
+  </div>
+  <div class="note-field">
+    <label><input type="radio" name="nutexNote" value="mr" onchange="generateMissingNotes()"> MR Note</label>
+  </div>
+  <div class="note-field">
+    <label><input type="radio" name="nutexNote" value="eob" onchange="generateMissingNotes()"> EOB Note</label>
   </div>
 </div>
 
 <div class="row">
   <div class="label">Output</div>
   <div id="missingOutput" class="generated"></div>
-  <button onclick="copyText('missingOutput')">Copy</button>
+  <button onclick="copyText('missingOutput', this)">Copy</button>
 </div>
 
-<div class="case-notes-section" style="margin-top:12px;">
-  <div class="note-field">
-    <label><input type="checkbox" id="insCardCheckbox" onchange="generateMissingNotes()"> INS Card</label>
-  </div>
-</div>
-
-<div class="row">
+<div class="row" id="cptOutputRow" style="display:none;">
   <div class="label">Output</div>
-  <div id="insCardOutput" class="generated"></div>
-  <button onclick="copyText('insCardOutput')">Copy</button>
+  <div id="cptOutput" class="generated"></div>
+  <button onclick="copyText('cptOutput', this)">Copy</button>
 </div>
 
-<div class="case-notes-section" style="margin-top:12px;">
-  <div class="note-field">
-    <label><input type="checkbox" id="checkEobCheckbox" onchange="generateMissingNotes()"> Check/Production Date EOB</label>
+<div id="insCardSection">
+    <div class="case-notes-section" style="margin-top:12px;">
+      <div class="note-field">
+        <label><input type="checkbox" id="insCardCheckbox" onchange="generateMissingNotes()"> INS Card</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="label">Output</div>
+      <div id="insCardOutput" class="generated"></div>
+      <button onclick="copyText('insCardOutput', this)">Copy</button>
+    </div>
+</div>
+
+<div id="checkEobSection">
+    <div class="case-notes-section" style="margin-top:12px;">
+      <div class="note-field">
+        <label><input type="checkbox" id="checkEobCheckbox" onchange="generateMissingNotes()"> Check/Production Date EOB</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="label">Output</div>
+      <div id="checkEobOutput" class="generated"></div>
+      <button onclick="copyText('checkEobOutput', this)">Copy</button>
+    </div>
+</div>
+
+<div id="itemizedEobSection" style="display:none; text-align:center; margin-top:15px;">
+  <hr>
+  <h3 style="text-align:center; margin-bottom:10px;">Itemized EOB Notes</h3>
+  <div class="case-notes-section" style="text-align: left;">
+    <div class="note-field">
+      <label><input type="radio" name="itemizedEob" value="bcbs" onchange="generateMissingNotes()"> BCBS LA Payor</label>
+    </div>
+    <div class="note-field">
+      <label><input type="radio" name="itemizedEob" value="except_bcbs" onchange="generateMissingNotes()"> All Payors Except BCBS LA</label>
+    </div>
+    <div class="note-field">
+      <label><input type="radio" name="itemizedEob" value="all" onchange="generateMissingNotes()"> All Payors</label>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="label">Output</div>
-  <div id="checkEobOutput" class="generated"></div>
-  <button onclick="copyText('checkEobOutput')">Copy</button>
+  <div class="row">
+    <div class="label">Output</div>
+    <div id="itemizedEobOutput" class="generated"></div>
+    <button onclick="copyText('itemizedEobOutput', this)">Copy</button>
+  </div>
 </div>
 
 </div>
@@ -199,39 +250,41 @@
       <button class="version-close" onclick="hideVersionHistory()">&times;</button>
     </div>
     <div class="version-content">
-      <div class="version-entry">
-        <h3>v2.1.0 - March 27, 2026</h3>
-        <div class="date">Latest Update</div>
+	<div class="version-entry">
+        <h3>v3.0.0 - March 31, 2026</h3>
+        <div class="date">Major Update & UI/UX Overhaul</div>
         <ul>
-          <li>Added PEP (PEP-GALVESTON-LONGVIEW-TYLER-PHG) portal support for missing case notes</li>
-          <li>Added dropdown selector for MPOWER vs PEP portals</li>
-          <li>Updated missing case notes messages for PEP with Phicure portal references</li>
-          <li>Added version history modal with changelog</li>
-          <li>Code obfuscated.</li>
+        <li>**New Features**:
+            <ul>
+              <li>Added NUTEX (GoRev Portal) support for missing case notes, including a dedicated "Multiple CPT Code" option.</li>
+              <li>Introduced a new "Itemized EOB Notes" section specifically for the NUTEX portal, featuring a three-option radio group for detailed EOB responses.</li>
+              <li>Implemented new color blind support themes:
+                <ul>
+                  <li>**Trichromacy**: High-contrast theme for enhanced readability.</li>
+                  <li>**Dichromacy**: Blue-yellow/orange focused theme for common red-green color blindness.</li>
+                  <li>**Monochromacy**: Grayscale theme for total color blindness.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>**UI/UX Improvements**:
+            <ul>
+              <li>Added "press" animation and visual feedback (color change & "Copied!" text) to all copy buttons.</li>
+              <li>Converted NUTEX missing notes to radio buttons for mutual exclusivity and consolidated output into a single field.</li>
+             </ul>
+          </li>
+          
+        
         </ul>
       </div>
-      
-      <div class="version-entry">
-        <h3>v2.0.0 - Previous Version</h3>
-        <div class="date">Major Update</div>
+	<div class="version-entry">
+        <h3>v2.1.1 - March 28, 2026</h3>
+        <div class="date">Urgent Update</div>
         <ul>
-          <li>Complete UI redesign with multiple theme support</li>
-          <li>Added dark mode, black & white, and custom themes</li>
-          <li>Improved responsive design and mobile compatibility</li>
-          <li>Enhanced missing notes automation</li>
+          <li>Fixed typo error on missing notes section under PEP dropdown</li>
         </ul>
       </div>
-      
-      <div class="version-entry">
-        <h3>v1.5.0 - Initial Features</h3>
-        <div class="date">Foundation Release</div>
-        <ul>
-          <li>Document name generator functionality</li>
-          <li>Case notes automation</li>
-          <li>Missing document reporting</li>
-          <li>Basic UI with light theme</li>
-        </ul>
-      </div>
+      <!-- Additional history items preserved -->
     </div>
   </div>
 </div>
@@ -240,50 +293,7 @@
 	<p>Any Problems, Questions or Suggestions?</p>
 	<p><a href="mailto:angelo.palaroan015@gmail.com">Email Me</a></p>
 </footer>
-</footer>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js" type="text/javascript"></script> 
-<script language="JavaScript"> 
-var numraindrops="150";
-var speed="5";
-var rainsize="2";
-var wind="left";
-var genxgallery="";
-
-function tb5_makeArray(n){ this.length = n; return this.length;
-}
-tb5_messages = new tb5_makeArray(2);
-tb5_messages[0] = "Created by";
-tb5_messages[1] = "♠[•]MrPlayground[•]♠";
-tb5_rptType = 'infinite';
-tb5_rptNbr = 10;
-tb5_speed = 50;
-tb5_delay = 2000;
-var tb5_counter=1;
-var tb5_currMsg=0;
-var tb5_stsmsg="";
-function tb5_shuffle(arr){
-var k;
-for (i=0; i<arr.length; i++){ k = Math.round(Math.random() * (arr.length - i - 1)) + i; temp = arr[i];arr[i]=arr[k];arr[k]=temp;
-}
-return arr;
-}
-tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
-tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length);
-for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; tb5_sts[i] = "*#";
-}
-tb5_arr = tb5_shuffle(tb5_arr);
-function tb5_init(n){
-var k;
-if (n == tb5_arr.length){ if (tb5_currMsg == tb5_messages.length-1){ if ((tb5_rptType == 'finite') && (tb5_counter==tb5_rptNbr)){ clearTimeout(tb5_timerID); return; } tb5_counter++; tb5_currMsg=0; } else{ tb5_currMsg++; } n=0; tb5_arr = new tb5_makeArray(tb5_messages[tb5_currMsg].length); tb5_sts = new tb5_makeArray(tb5_messages[tb5_currMsg].length); for (var i=0; i<tb5_messages[tb5_currMsg].length; i++){ tb5_arr[i] = i; tb5_sts[i] = "+="; } tb5_arr = tb5_shuffle(tb5_arr); tb5_sp=tb5_delay;
-}
-else{ tb5_sp=tb5_speed; k = tb5_arr[n]; tb5_sts[k] = tb5_messages[tb5_currMsg].charAt(k); tb5_stsmsg = ""; for (var i=0; i<tb5_sts.length; i++) tb5_stsmsg += tb5_sts[i]; document.title = tb5_stsmsg; n++; } tb5_timerID = setTimeout("tb5_init("+n+")", tb5_sp);
-}
-function tb5_randomizetitle(){ tb5_init(0);
-}
-tb5_randomizetitle();
-</script>
 
 <script src="script.js"></script>
 </body>
 </html>
-   
