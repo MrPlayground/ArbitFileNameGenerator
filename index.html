@@ -23,6 +23,7 @@
 </div>
 
 <div class="version-history-selector">
+  <button onclick="showHelp()" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); cursor: pointer; font-size: 12px; margin-right: 5px;">Help</button>
   <button onclick="showVersionHistory()" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); cursor: pointer; font-size: 12px;">Version History</button>
 </div>
 
@@ -43,6 +44,11 @@
 
 <div id="mappingFeedback"></div>
 
+<div class="search-container" style="margin-bottom:8px; display:flex; gap:5px;">
+  <input type="text" id="searchInput" placeholder="Search ARBIT or EHR..." style="margin-bottom:0; flex:1;" onkeydown="if(event.key==='Enter') searchArbit()">
+  <button onclick="searchArbit()" style="margin-right:0;">Search</button>
+</div>
+
 <div id="currentSelection" style="margin-bottom:8px; font-size:12px; font-weight:bold; color: var(--text-primary);">No data loaded</div>
 
 <div class="controls">
@@ -52,18 +58,6 @@
 </div>
 
 <hr style="margin:8px 0;">
-
-<div class="row">
-<div class="label">HCFA</div>
-<div id="hcfa" class="generated"></div>
-<button onclick="copyText('hcfa', this)">Copy</button>
-</div>
-
-<div class="row">
-<div class="label">EOB</div>
-<div id="eob" class="generated"></div>
-<button onclick="copyText('eob', this)">Copy</button>
-</div>
 
 <div class="row">
 <div class="label">INS</div>
@@ -78,11 +72,28 @@
 </div>
 
 <div class="row">
+<div class="label">HCFA</div>
+<div id="hcfa" class="generated"></div>
+<button onclick="copyText('hcfa', this)">Copy</button>
+</div>
+
+<div class="row">
+<div class="label">EOB</div>
+<div id="eob" class="generated"></div>
+<button onclick="copyText('eob', this)">Copy</button>
+</div>
+
+<div class="row">
 <div class="label">VOB</div>
 <div id="vob" class="generated"></div>
 <button onclick="copyText('vob', this)">Copy</button>
 </div>
 
+<div class="row">
+<div class="label">UB04</div>
+<div id="ub04" class="generated"></div>
+<button onclick="copyText('ub04', this)">Copy</button>
+</div>
 
 </div>
 
@@ -124,9 +135,15 @@
 </div>
 
 <div class="row">
-  <div class="label">Output</div>
-  <div id="caseOutput" class="generated"></div>
-  <button onclick="copyText('caseOutput', this)">Copy</button>
+  <div class="label">Dates Output</div>
+  <div id="datesOutput" class="generated"></div>
+  <button onclick="copyText('datesOutput', this)">Copy</button>
+</div>
+
+<div class="row">
+  <div class="label">Claim Output</div>
+  <div id="claimOutput" class="generated"></div>
+  <button onclick="copyText('claimOutput', this)">Copy</button>
 </div>
 
 </div>
@@ -242,6 +259,59 @@
 
 </div>
 
+<!-- Help Modal -->
+<div id="helpModal" class="version-modal">
+  <div class="version-modal-content" style="max-width: 800px;">
+    <div class="version-modal-header">
+      <h2>Guidelines</h2>
+      <button class="version-close" onclick="hideHelp()">&times;</button>
+    </div>
+    <div class="version-content">
+      <table class="help-table">
+        <thead>
+          <tr>
+            <th>NSA Status</th>
+            <th>STATE Status</th>
+            <th>DATES that Needs to Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PENDING or NOT SUBMITTED</td>
+            <td>INELIGIBLE</td>
+            <td>LAST EOB DATE</td>
+          </tr>
+          <tr>
+            <td>INELIGIBLE</td>
+            <td>PENDING or NOT SUBMITTED</td>
+            <td>FIRST RESPONSE DATE</td>
+          </tr>
+          <tr>
+            <td>SUBMITTED</td>
+            <td>PENDING / NOT SUBMITTED / INELIGIBLE</td>
+            <td>DO NOT CHANGE</td>
+          </tr>
+          <tr>
+            <td>INELIGIBLE</td>
+            <td>INELIGIBLE/GOVPLAN</td>
+            <td>LAST EOB DATE AND FIRST RESPONSE DATE</td>
+          </tr>
+          <tr>
+            <td>PENDING or NOT SUBMITTED</td>
+            <td>PENDING or NOT SUBMITTED</td>
+            <td>LAST EOB DATE AND FIRST RESPONSE DATE</td>
+          </tr>
+          <tr>
+            <td>INELIGIBLE / NOT SUBMITTED</td>
+            <td>SUBMITTED / IF THE CASE HAS AUTHORITY CASE NUMBER</td>
+            <td>DO NOT CHANGE</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Version History Modal -->
 <div id="versionModal" class="version-modal">
   <div class="version-modal-content">
@@ -250,6 +320,25 @@
       <button class="version-close" onclick="hideVersionHistory()">&times;</button>
     </div>
     <div class="version-content">
+	<div class="version-entry">
+        <h3>v3.1.0 - April 02, 2026</h3>
+        <div class="date">Search & Productivity Update</div>
+        <ul>
+          <li>**New Features**:
+            <ul>
+              <li>Added Search field to jump directly to specific ARBIT or EHR numbers within loaded data.</li>
+              <li>Added a "Help" button with a comprehensive mapping guidelines table for NSA and STATE statuses.</li>
+              <li>Separated "Dates Output" and "Claim Output" in Arbit Case Notes for independent copying.</li>
+              <li>Added UB04 under file name generator section.</li>
+            </ul>
+          </li>
+          <li>**UI/UX Improvements**:
+            <ul>
+              <li>Implemented a highlight glow effect on output fields when a search is successful.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
 	<div class="version-entry">
         <h3>v3.0.0 - March 31, 2026</h3>
         <div class="date">Major Update & UI/UX Overhaul</div>
@@ -284,7 +373,38 @@
           <li>Fixed typo error on missing notes section under PEP dropdown</li>
         </ul>
       </div>
-      <!-- Additional history items preserved -->
+      <div class="version-entry">
+        <h3>v2.1.0 - March 27, 2026</h3>
+        <div class="date">Previous Update</div>
+        <ul>
+          <li>Added PEP (PEP-GALVESTON-LONGVIEW-TYLER-PHG) portal support for missing case notes</li>
+          <li>Added dropdown selector for MPOWER vs PEP portals</li>
+          <li>Updated missing case notes messages for PEP with Phicure portal references</li>
+          <li>Added version history modal with changelog</li>
+        </ul>
+      </div>
+      
+      <div class="version-entry">
+        <h3>v2.0.0 - Previous Version</h3>
+        <div class="date">Major Update</div>
+        <ul>
+          <li>Complete UI redesign with multiple theme support</li>
+          <li>Added dark mode, black & white, and custom themes</li>
+          <li>Improved responsive design and mobile compatibility</li>
+          <li>Enhanced missing notes automation</li>
+        </ul>
+      </div>
+      
+      <div class="version-entry">
+        <h3>v1.5.0 - Initial Features</h3>
+        <div class="date">Foundation Release</div>
+        <ul>
+          <li>Document name generator functionality</li>
+          <li>Case notes automation</li>
+          <li>Missing document reporting</li>
+          <li>Basic UI with light theme</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
